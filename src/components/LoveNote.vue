@@ -14,7 +14,7 @@ const open = ref(false);
     >
       <span class="stamp" aria-hidden="true">✈︎</span>
       <span class="flap-text">
-        {{ open ? "close the note" : "a note for you" }}
+        {{ open ? "close the note" : "a note for Nicolle" }}
       </span>
       <span class="hint">{{ open ? "" : "tap to open" }}</span>
     </button>
@@ -123,7 +123,7 @@ const open = ref(false);
   position: absolute;
   left: calc(8% + var(--i) * 10%);
   bottom: -20px;
-  color: var(--coral);
+  color: var(--gold);
   font-size: calc(0.7rem + var(--i) * 0.05rem);
   animation: rise 3s ease-in calc(var(--i) * 0.18s) forwards;
   opacity: 0;

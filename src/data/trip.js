@@ -4,9 +4,8 @@
 
 export const people = {
   traveler: "Juan",
-  // Shown as "flying to ___". Leave "you" for the romantic version,
-  // or drop in a name / nickname.
-  home: "you",
+  // Shown as "flying to ___" and in the "Juan → ___" line.
+  home: "Nicolle",
 };
 
 // The exact moment you're back together.
@@ -20,7 +19,7 @@ export const reunion = {
 };
 
 // Opens when the card at the bottom is tapped. Line breaks are kept.
-export const note = `Ya alistándome para Halloween en Guayaquil <3`;
+export const note = `Ya alistándome para Halloween en Guayaquil 💛`;
 
 // Each stop. type: "stay" (default) | "hop" (a travel day) | "reunion" (the last one).
 //   coords: [latitude, longitude]  — used for the "___ km apart today" line.
@@ -106,6 +105,6 @@ export const segments = [
     start: "2026-10-31", end: "2026-10-31", type: "reunion",
     city: "Guayaquil", country: "Ecuador", emoji: "💛",
     coords: [-2.19, -79.89], map: { x: 0.152, y: 0.84 }, labelPos: "bottom",
-    blurb: "You, at the gate. The whole trip was pointed here.",
+    blurb: "Nicolle, at the gate. The whole trip was pointed here.",
   },
 ];

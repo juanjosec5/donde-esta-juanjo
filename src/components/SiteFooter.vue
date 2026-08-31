@@ -12,7 +12,7 @@ const { parts, done } = useCountdown();
       {{ reunion.label }}.
     </p>
     <p v-else>Together in {{ reunion.city }}. That's the whole story.</p>
-    <p class="made">made with a lot of missing you · {{ reunion.dateLabel }}</p>
+    <p class="made">made with a lot of missing Nicolle · {{ reunion.dateLabel }}</p>
   </footer>
 </template>
 

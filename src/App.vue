@@ -33,7 +33,7 @@ const pct = computed(() => Math.round(progress.value * 100));
   <main>
     <header class="hero">
       <p class="eyebrow" v-reveal>{{ people.traveler }} → {{ people.home }}</p>
-      <h1 v-reveal="{ delay: 80 }">The long way<br />back to you</h1>
+      <h1 v-reveal="{ delay: 80 }">The long way<br />back to Nicolle</h1>
       <p class="lede" v-reveal="{ delay: 160 }">
         Where he is right now, and exactly how long until he walks through
         {{ reunion.label }}.
