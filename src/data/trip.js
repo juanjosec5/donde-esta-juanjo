@@ -14,6 +14,7 @@ export const people = {
 export const reunion = {
   iso: "2026-10-31T20:00:00-05:00",
   city: "Guayaquil",
+  coords: [-2.19, -79.89],
   label: "the arrivals gate in Guayaquil",
   dateLabel: "31 October 2026",
 };

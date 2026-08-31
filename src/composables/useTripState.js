@@ -7,8 +7,8 @@ const NOW = Symbol.for("trip.now");
 const START = parseDay(segments[0].start);
 const END = new Date(reunion.iso);
 
-export function useTripState() {
-  const now = inject(NOW);
+export function useTripState(nowRef) {
+  const now = nowRef || inject(NOW);
   const at = computed(() => new Date(now.value));
 
   // Last segment whose [start, end] window contains today (end day inclusive).

@@ -3,8 +3,8 @@ import { reunion } from "../data/trip";
 
 const NOW = Symbol.for("trip.now");
 
-export function useCountdown() {
-  const now = inject(NOW);
+export function useCountdown(nowRef) {
+  const now = nowRef || inject(NOW);
   const target = new Date(reunion.iso).getTime();
 
   const diff = computed(() => target - now.value);

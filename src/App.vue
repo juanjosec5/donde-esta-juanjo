@@ -12,9 +12,10 @@ import DayTimeline from "./components/DayTimeline.vue";
 import LoveNote from "./components/LoveNote.vue";
 import SiteFooter from "./components/SiteFooter.vue";
 
-provide(Symbol.for("trip.now"), useNow());
+const now = useNow();
+provide(Symbol.for("trip.now"), now);
 
-const { currentSegment, currentIndex, progress } = useTripState();
+const { currentSegment, currentIndex, progress } = useTripState(now);
 
 const kmApart = computed(() =>
   groupThousands(haversineKm(currentSegment.value.coords, reunion.coords)),
