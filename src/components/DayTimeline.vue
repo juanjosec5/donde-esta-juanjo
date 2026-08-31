@@ -1,9 +1,13 @@
 <script setup>
+import { computed } from "vue";
 import { segments } from "../data/trip";
 import { useTripState } from "../composables/useTripState";
 import { dateRange, nightCount } from "../lib/format";
 
 const { currentIndex, progress, started } = useTripState();
+
+// The card the "jump to today" controls scroll to (first stop before the trip starts).
+const anchorIndex = computed(() => Math.max(currentIndex.value, 0));
 
 function state(i) {
   if (!started.value) return "future";
@@ -27,6 +31,7 @@ function nightsText(s) {
       <li
         v-for="(s, i) in segments"
         :key="i"
+        :id="i === anchorIndex ? 'today' : null"
         class="entry"
         :class="[state(i), s.type || 'stay', i % 2 ? 'right' : 'left']"
         v-reveal="{ delay: (i % 3) * 70 }"

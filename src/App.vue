@@ -4,11 +4,12 @@ import { useNow } from "./composables/useNow";
 import { useTripState } from "./composables/useTripState";
 import { segments, reunion, people } from "./data/trip";
 import { haversineKm, groupThousands } from "./lib/geo";
+import { scrollToToday } from "./lib/scrollToToday";
 
 import AmbientSky from "./components/AmbientSky.vue";
 import BoardingPass from "./components/BoardingPass.vue";
-import RouteMap from "./components/RouteMap.vue";
 import DayTimeline from "./components/DayTimeline.vue";
+import JumpToday from "./components/JumpToday.vue";
 import LoveNote from "./components/LoveNote.vue";
 import SiteFooter from "./components/SiteFooter.vue";
 
@@ -47,25 +48,20 @@ const pct = computed(() => Math.round(progress.value * 100));
         <li><b>{{ stopsLeft }}</b><span>stops to go</span></li>
         <li><b>{{ pct }}%</b><span>of the way there</span></li>
       </ul>
-    </header>
 
-    <section class="block">
-      <div class="block-head" v-reveal>
-        <p class="eyebrow">The route</p>
-        <h2>Two oceans, one direction</h2>
-        <p class="sub">
-          The paper plane is where he is today. The bright line is road already
-          behind him.
-        </p>
-      </div>
-      <RouteMap />
-    </section>
+      <button class="jump-hero" v-reveal @click="scrollToToday">
+        See where he is right now ↓
+      </button>
+    </header>
 
     <section class="block">
       <div class="block-head" v-reveal>
         <p class="eyebrow">Day by day</p>
         <h2>Every stop between here and there</h2>
-        <p class="sub">The glowing dot is today. Everything below it hasn't happened yet.</p>
+        <p class="sub">
+          The glowing dot is today. Everything below it hasn't happened yet —
+          tap the button any time to jump back to it.
+        </p>
       </div>
       <DayTimeline />
     </section>
@@ -76,6 +72,8 @@ const pct = computed(() => Math.round(progress.value * 100));
 
     <SiteFooter />
   </main>
+
+  <JumpToday />
 </template>
 
 <style scoped>
@@ -135,6 +133,24 @@ h1 {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-soft);
+}
+
+.jump-hero {
+  margin-top: 1.6rem;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--coral), var(--orchid));
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: 0 14px 30px -14px rgba(255, 158, 158, 0.9);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.jump-hero:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px -14px rgba(201, 167, 240, 0.9);
 }
 
 .block {
