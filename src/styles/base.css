@@ -1,0 +1,122 @@
+:root {
+  /* Plane-window sunset — the view when you're between two places */
+  --cream:   #FFF4EC;
+  --shell:   #FFFBF7;
+  --peach:   #FFCBA4;
+  --coral:   #FF9E9E;
+  --orchid:  #C9A7F0;
+  --sky:     #9FD0EC;
+  --mint:    #7FD8B4;
+  --ink:     #5E434B;
+  --ink-soft: #977f86;
+  --gold:    #F4B740;
+
+  --edge: rgba(94, 67, 75, 0.14);
+  --card-shadow: 0 22px 50px -24px rgba(94, 67, 75, 0.4);
+
+  --font-display: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
+  --font-body: "Nunito", system-ui, -apple-system, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --page: min(920px, 92vw);
+  --radius: 22px;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --cream:   #241d29;
+    --shell:   #2e2434;
+    --peach:   #d8996f;
+    --coral:   #e88b8b;
+    --orchid:  #b79ae0;
+    --sky:     #86bcda;
+    --mint:    #74c9a6;
+    --ink:     #f3e8ee;
+    --ink-soft: #b7a3b0;
+    --gold:    #f0be5f;
+    --edge: rgba(243, 232, 238, 0.16);
+    --card-shadow: 0 22px 50px -24px rgba(0, 0, 0, 0.6);
+    color-scheme: dark;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--cream);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 3px solid var(--orchid);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* v-reveal ------------------------------------------------------------------ */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
