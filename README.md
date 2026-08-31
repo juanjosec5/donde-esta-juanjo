@@ -1,33 +1,55 @@
-# The long way back to you
+# trip-timeline — monorepo (MVP base)
 
-A one-page trip tracker: a live countdown on a pastel boarding pass, an
-animated route map, and a day-by-day timeline. All data is hardcoded — no APIs.
+A personalized countdown page: a live countdown, a day-by-day timeline of where
+someone is, and a note. Built for long-distance couples first.
 
-## Run it
+> **Branch note.** This restructure lives on `develop`. `main` still holds the
+> single hand-authored page ("donde está juanjo") and is what Vercel production
+> serves. Nothing here is deployed until `main` is deliberately updated and the
+> Vercel project's **Root Directory** is pointed at `apps/renderer`.
 
-```bash
-npm install
-npm run dev
+## Layout
+
+```
+apps/
+  renderer/   public site. "/" = the seed page (static, no network),
+              "/p/:slug" = a published page fetched from Supabase.
+  builder/    authenticated page builder (form + live preview). Skeleton.
+packages/
+  shared/     Vue components, composables, the PageConfig schema
+              (normalizeConfig / toRenderModel), and tokens.css.
+supabase/     migrations (pages / orders / RLS) + local seed.
 ```
 
-## Change the content
+`packages/shared` is the render surface. Both apps import from `@trip/shared`;
+neither app imports the other.
 
-Everything editable lives in **`src/data/trip.js`**:
+## Run
 
-- `people` — traveler name, and who they're flying to (`"you"` or a name)
-- `reunion` — the exact reunion moment (keep the `-05:00` offset for Ecuador),
-  plus the labels shown on the page
-- `note` — the letter that opens when the bottom card is tapped
-- `segments` — every stop: dates, city, country, emoji, blurb, `coords`
-  (`[lat, lon]`, used for the "km apart" line) and `map: { x, y }` (0–1
-  position on the route diagram)
+```bash
+npm install                 # workspaces link @trip/shared into both apps
+npm run dev:renderer        # http://localhost:5173  — "/" is the seed page
+npm run dev:builder         # http://localhost:5174  — needs Supabase, else demo mode
+npm run build               # builds both apps
+```
 
-## Deploy to Vercel
+Copy `apps/*/.env.example` → `apps/*/.env` and fill Supabase keys to leave demo
+mode. Local Supabase:
 
-1. `git init && git add -A && git commit -m "trip timeline"`
-2. Push to a new GitHub repo.
-3. On vercel.com → **Add New → Project** → import the repo.
-4. Framework preset is detected as **Vite**. Build command `vite build`,
-   output `dist`. Nothing to configure — deploy.
+```bash
+supabase start
+supabase db reset           # applies migrations + seed
+```
 
-Later edits: push to `main`, Vercel redeploys automatically.
+## The config model
+
+One `PageConfig` object per page (stored as `pages.config` jsonb, also the shape
+the builder edits). `@trip/shared/lib/normalizeConfig.js` documents it and fills
+defaults; `toRenderModel.js` flattens it to what the components read. The seed
+page is `apps/renderer/src/configs/juanjo.js`.
+
+## What's stubbed (M1)
+
+Payment (LemonSqueezy checkout + webhook → `plan='paid'`), dynamic OG images,
+i18n strings, extra themes, photo uploads, password-protected pages, custom
+domains. See `.claude/plans/` for the full plan.

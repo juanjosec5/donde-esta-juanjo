@@ -1,18 +1,17 @@
 {
-  "name": "trip-timeline",
+  "name": "trip-timeline-monorepo",
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "vue": "^3.5.13"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-vue": "^5.2.1",
-    "vite": "^6.0.7"
+    "dev:renderer": "npm run dev -w @trip/renderer",
+    "dev:builder": "npm run dev -w @trip/builder",
+    "build": "npm run build -w @trip/renderer && npm run build -w @trip/builder",
+    "build:renderer": "npm run build -w @trip/renderer",
+    "preview:renderer": "npm run preview -w @trip/renderer"
   }
 }

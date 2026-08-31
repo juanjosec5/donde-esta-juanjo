@@ -1,0 +1,13 @@
+{
+  "name": "@trip/shared",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./index.js",
+    "./styles/base.css": "./styles/base.css"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  }
+}
