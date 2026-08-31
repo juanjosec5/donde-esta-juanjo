@@ -20,12 +20,7 @@ export const reunion = {
 };
 
 // Opens when the card at the bottom is tapped. Line breaks are kept.
-export const note = `Write your note here.
-
-Every line break stays exactly where you put it,
-so you can shape it like a letter.
-
-— Juan`;
+export const note = `Ya alistándome para Halloween en Guayaquil <3`;
 
 // Each stop. type: "stay" (default) | "hop" (a travel day) | "reunion" (the last one).
 //   coords: [latitude, longitude]  — used for the "___ km apart today" line.
