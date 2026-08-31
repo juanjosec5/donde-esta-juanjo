@@ -3,8 +3,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const people = {
-  traveler: "Juan",
-  // Shown as "flying to ___" and in the "Juan → ___" line.
+  traveler: "Juanjo",
+  // Shown as "flying to ___" and in the "Juanjo → ___" line.
   home: "Nicolle",
 };
 

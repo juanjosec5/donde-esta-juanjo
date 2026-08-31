@@ -60,7 +60,7 @@ const bars = Array.from({ length: 41 }, (_, i) => {
     <div class="pass-main">
       <div class="pass-row">
         <span class="eyebrow">Boarding pass</span>
-        <span class="code">JC&nbsp;·&nbsp;10—31</span>
+        <span class="code">JJ&nbsp;·&nbsp;10—31</span>
       </div>
 
       <div class="fields">
