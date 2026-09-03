@@ -248,7 +248,7 @@ const bars = Array.from({ length: 41 }, (_, i) => {
   font-size: clamp(4.2rem, 20vw, 7.4rem);
   line-height: 0.86;
   letter-spacing: -0.04em;
-  background: linear-gradient(135deg, var(--coral), var(--orchid));
+  background: var(--accent-fill);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

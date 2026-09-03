@@ -154,7 +154,7 @@ h1 {
   padding: 0.8rem 1.5rem;
   border: none;
   border-radius: 999px;
-  background: linear-gradient(135deg, var(--coral), var(--orchid));
+  background: var(--accent-fill);
   color: #fff;
   font-family: var(--font-display);
   font-weight: 700;

@@ -186,7 +186,7 @@ const range = (s) => dateRange(s.start, s.end, locale.value);
     var(--cur-top, 0px) + 1.4rem + 8.5px +
       var(--day-through, 0) * (var(--cur-height, 0px) - 2.8rem)
   );
-  background: linear-gradient(var(--coral), var(--orchid));
+  background: var(--accent-fill);
   border-radius: 3px;
   transition: height 1.2s cubic-bezier(0.22, 1, 0.36, 1);
 }

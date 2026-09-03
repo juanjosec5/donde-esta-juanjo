@@ -14,6 +14,10 @@
   --edge: rgba(94, 67, 75, 0.14);
   --card-shadow: 0 22px 50px -24px rgba(94, 67, 75, 0.4);
 
+  /* accent fill for the rail, the countdown number and the hero button —
+     a preset can flatten it to a solid `var(--coral)` */
+  --accent-fill: linear-gradient(135deg, var(--coral), var(--orchid));
+
   --font-display: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
   --font-body: "Nunito", system-ui, -apple-system, sans-serif;
   --font-mono: "DM Mono", ui-monospace, "SF Mono", Menlo, monospace;

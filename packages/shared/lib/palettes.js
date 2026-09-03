@@ -24,6 +24,7 @@ export const PALETTES = {
     "--ink-soft": "#6C665C",
     "--edge": "rgba(38, 35, 32, 0.14)",
     "--card-shadow": "0 22px 50px -24px rgba(38, 35, 32, 0.22)",
+    "--accent-fill": "var(--coral)",
     "color-scheme": "light",
   },
 
@@ -41,6 +42,7 @@ export const PALETTES = {
     "--ink-soft": "#6E6E6E",
     "--edge": "rgba(0, 0, 0, 0.16)",
     "--card-shadow": "0 22px 50px -24px rgba(0, 0, 0, 0.3)",
+    "--accent-fill": "var(--coral)",
     "color-scheme": "light",
   },
 };
