@@ -34,10 +34,11 @@ export const MESSAGES = {
     "bp.home": "en casa",
     "bp.pointedHere": "el viaje apuntaba aquí desde el principio",
 
-    "footer.countdown": (days, hours, label) =>
-      `${days} ${days === 1 ? "día" : "días"}, ${hours} ${
-        hours === 1 ? "hora" : "horas"
-      } para ${label}.`,
+    "footer.countdown": (days, hours, label) => {
+      const d = `${days} ${days === 1 ? "día" : "días"}`;
+      const h = `${hours} ${hours === 1 ? "hora" : "horas"}`;
+      return label ? `${d}, ${h} para ${label}.` : `Faltan ${d}, ${h}`;
+    },
     "footer.together": (city) => `Juntos en ${city}. Esa es toda la historia.`,
 
     "landing.for": "para",
@@ -86,10 +87,11 @@ export const MESSAGES = {
     "bp.home": "home",
     "bp.pointedHere": "the trip was pointed here the whole time",
 
-    "footer.countdown": (days, hours, label) =>
-      `${days} ${days === 1 ? "day" : "days"}, ${hours} ${
-        hours === 1 ? "hour" : "hours"
-      } to ${label}.`,
+    "footer.countdown": (days, hours, label) => {
+      const d = `${days} ${days === 1 ? "day" : "days"}`;
+      const h = `${hours} ${hours === 1 ? "hour" : "hours"}`;
+      return label ? `${d}, ${h} to ${label}.` : `${d}, ${h} to go`;
+    },
     "footer.together": (city) => `Together in ${city}. That's the whole story.`,
 
     "landing.for": "for",

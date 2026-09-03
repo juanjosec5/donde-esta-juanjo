@@ -41,7 +41,6 @@ export default {
     at: "2026-10-03T22:00:00-05:00",
     tz: "America/Bogota",
     placeName: "Buga",
-    label: { en: "home in Buga", es: "casa, en Buga" },
     gate: "CLO",
     passCode: "JJ · 10—03",
     countFrom: "2026-10-03",
