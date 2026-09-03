@@ -128,7 +128,11 @@ function nightsText(s) {
         :class="[state(i), s.type || 'stay', i % 2 ? 'right' : 'left']"
         v-reveal="{ delay: (i % 3) * 70 }"
       >
-        <span class="marker" aria-hidden="true" />
+        <span
+          v-if="state(i) === 'current'"
+          class="marker"
+          aria-hidden="true"
+        />
 
         <div class="card">
           <template v-if="s.type === 'hop'">
@@ -190,7 +194,7 @@ function nightsText(s) {
   top: 0;
   bottom: 0;
   left: 23px; /* centre of the rail (left:22 + width:3 / 2) */
-  width: 15px;
+  width: 11px;
   transform: translateX(-50%);
   pointer-events: none;
 }
@@ -237,32 +241,20 @@ ol {
   padding-left: 58px;
 }
 
+/* only the current stop shows a dot; the rest of the line is the day-ruler */
 .marker {
   position: absolute;
   left: 15px;
-  top: 1.4rem;
+  top: calc(1.4rem + var(--day-through, 0) * (100% - 2.8rem));
   width: 17px;
   height: 17px;
   border-radius: 50%;
-  background: var(--shell);
-  border: 3px solid var(--ink-soft);
-  z-index: 1;
-}
-.entry.past .marker {
-  background: var(--coral);
-  border-color: var(--coral);
-}
-.entry.current .marker {
-  top: calc(1.4rem + var(--day-through, 0) * (100% - 2.8rem));
   background: var(--mint);
-  border-color: var(--mint);
+  border: 3px solid var(--mint);
   box-shadow: 0 0 0 6px rgba(127, 216, 180, 0.28);
   animation: throb 2.2s ease-in-out infinite;
   transition: top 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.entry.reunion .marker {
-  background: var(--gold);
-  border-color: var(--gold);
+  z-index: 1;
 }
 @keyframes throb {
   50% { box-shadow: 0 0 0 12px rgba(127, 216, 180, 0); }
@@ -393,7 +385,7 @@ h3 {
   .card {
     transition: none;
   }
-  .entry.current .marker {
+  .marker {
     animation: none;
     transition: none;
   }
