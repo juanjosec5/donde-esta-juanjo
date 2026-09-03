@@ -34,7 +34,7 @@ export default {
     title: { en: "The long way\nhome", es: "Ubicación\nde JJ" },
     subtitle: {
       en: "Where Juanjo is right now, and exactly how long until he's back home in Buga.",
-      es: "Dónde está Juanjo ahora mismo, y exactamente cuánto falta para que vuelva a casa en Buga.",
+      es: "Dónde está Juanjo y exactamente cuánto falta para su viaje.",
     },
   },
   target: {
