@@ -1,8 +1,10 @@
 <script setup>
-import { PageHost } from "@trip/shared";
+import { PageHost, useLocale } from "@trip/shared";
 import friendsFamily from "../configs/friends-family.js";
+
+const { locale } = useLocale();
 </script>
 
 <template>
-  <PageHost :config="friendsFamily" />
+  <PageHost :key="locale" :config="friendsFamily" />
 </template>

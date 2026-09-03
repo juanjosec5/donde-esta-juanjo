@@ -12,42 +12,45 @@ import { legs } from "./itinerary.js";
 export default {
   meta: {
     slug: "friends-family",
-    locale: "en",
+    locale: "es",
     occasion: "friends",
     status: "published",
     plan: "paid",
   },
   theme: {
-    preset: "sunset",
-    accent: "#FF9E9E",
+    preset: "paper",
+    accent: "#2F6BE0",
     fontPair: "bricolage-nunito",
     heroStyle: "boardingPass",
     motion: true,
   },
   people: {
     away: [{ name: "Juanjo" }],
-    home: [{ name: "home" }],
+    home: [{ name: { en: "home", es: "casa" } }],
     whoIsAway: "away",
     relationship: "friends-family",
   },
   hero: {
-    title: "Ubicación\nde JJ",
-    subtitle:
-      "Where Juanjo is right now, and exactly how long until he's back home in Buga.",
+    title: { en: "The long way\nhome", es: "Ubicación\nde JJ" },
+    subtitle: {
+      en: "Where Juanjo is right now, and exactly how long until he's back home in Buga.",
+      es: "Dónde está Juanjo ahora mismo, y exactamente cuánto falta para que vuelva a casa en Buga.",
+    },
   },
   target: {
     at: "2026-10-03T22:00:00-05:00",
     tz: "America/Bogota",
     placeName: "Buga",
-    label: "home ground in Buga",
-    dateLabel: "3 October 2026",
+    label: { en: "home in Buga", es: "casa, en Buga" },
     gate: "CLO",
     passCode: "JJ · 10—03",
     countFrom: "2026-10-03",
     coords: [3.9, -76.3],
     onZero: {
-      title: "home",
-      body: "the trip was pointed here the whole time",
+      body: {
+        en: "the trip was pointed here the whole time",
+        es: "el viaje apuntaba aquí desde el principio",
+      },
       confetti: true,
     },
   },
@@ -57,12 +60,15 @@ export default {
     return {
       ...rest,
       kind: "reunion",
-      body: "Home ground, back for Halloween. The whole trip was pointed here.",
+      body: {
+        en: "Home ground, back for Halloween. The whole trip was pointed here.",
+        es: "Terreno conocido, de vuelta para Halloween. Todo el viaje apuntaba aquí.",
+      },
     };
   }),
   stats: {
     show: ["distance", "stopsLeft", "percent"],
-    distanceLabel: "km away",
+    distanceLabel: { en: "km away", es: "km de distancia" },
   },
   share: { ogAuto: true },
   branding: { showFooter: true },

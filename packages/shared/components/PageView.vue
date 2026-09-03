@@ -3,6 +3,7 @@ import { computed, inject } from "vue";
 import { PAGE } from "../lib/keys.js";
 import { useTripState } from "../composables/useTripState";
 import { useToTodayDirection } from "../composables/useToTodayDirection";
+import { useLocale } from "../composables/useLocale";
 import { haversineKm, groupThousands } from "../lib/geo.js";
 import { scrollToToday } from "../lib/scrollToToday.js";
 
@@ -12,6 +13,9 @@ import DayTimeline from "./DayTimeline.vue";
 import JumpToday from "./JumpToday.vue";
 import LoveNote from "./LoveNote.vue";
 import SiteFooter from "./SiteFooter.vue";
+import PageControls from "./PageControls.vue";
+
+const { t } = useLocale();
 
 const page = inject(PAGE);
 const people = page.people;
@@ -42,6 +46,7 @@ const pct = computed(() =>
 
 <template>
   <AmbientSky />
+  <PageControls />
 
   <main>
     <header class="hero">
@@ -58,24 +63,19 @@ const pct = computed(() =>
 
       <ul class="stats" v-reveal>
         <li v-if="show('distance')"><b>{{ kmApart }}</b><span>{{ page.stats.distanceLabel }}</span></li>
-        <li v-if="show('stopsLeft')"><b>{{ stopsLeft }}</b><span>stops to go</span></li>
-        <li v-if="show('percent')"><b>{{ pct }}%</b><span>of the way there</span></li>
+        <li v-if="show('stopsLeft')"><b>{{ stopsLeft }}</b><span>{{ t('stat.stopsLeft') }}</span></li>
+        <li v-if="show('percent')"><b>{{ pct }}%</b><span>{{ t('stat.percent') }}</span></li>
       </ul>
 
       <button class="jump-hero" v-reveal @click="scrollToToday">
-        See where he is right now
+        {{ t('hero.jumpCta') }}
         <span aria-hidden="true">{{ toTodayUp ? "↑" : "↓" }}</span>
       </button>
     </header>
 
     <section class="block">
       <div class="block-head" v-reveal>
-        <p class="eyebrow">Day by day</p>
-        <h2>Every stop between here and there</h2>
-        <p class="sub">
-          The glowing dot is today. Everything below it hasn't happened yet —
-          tap the button any time to jump back to it.
-        </p>
+        <h2>{{ t('timeline.heading') }}</h2>
       </div>
       <DayTimeline />
     </section>
@@ -159,12 +159,12 @@ h1 {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 0.95rem;
-  box-shadow: 0 14px 30px -14px rgba(255, 158, 158, 0.9);
+  box-shadow: 0 14px 30px -14px color-mix(in srgb, var(--coral) 90%, transparent);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .jump-hero:hover {
   transform: translateY(-2px);
-  box-shadow: 0 18px 36px -14px rgba(201, 167, 240, 0.9);
+  box-shadow: 0 18px 36px -14px color-mix(in srgb, var(--orchid) 90%, transparent);
 }
 
 .block {

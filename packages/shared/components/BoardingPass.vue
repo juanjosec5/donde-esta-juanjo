@@ -3,7 +3,10 @@ import { ref, computed, inject, onMounted, watch } from "vue";
 import { PAGE } from "../lib/keys.js";
 import { useCountdown } from "../composables/useCountdown";
 import { useTripState } from "../composables/useTripState";
+import { useLocale } from "../composables/useLocale";
 import { pad2 } from "../lib/format";
+
+const { t } = useLocale();
 
 const page = inject(PAGE);
 const people = page.people;
@@ -44,11 +47,12 @@ const clock = computed(
   () => `${pad2(parts.value.hours)}:${pad2(parts.value.minutes)}:${pad2(parts.value.seconds)}`,
 );
 
+const first = page.segments[0] ?? {};
 const fromLabel = computed(() =>
-  started.value ? currentSegment.value.city : "Tampa",
+  started.value ? currentSegment.value.city : first.city ?? "",
 );
 const fromEmoji = computed(() =>
-  started.value ? currentSegment.value.emoji : "🌴",
+  started.value ? currentSegment.value.emoji : first.emoji ?? "",
 );
 
 const flyingTo = computed(() => people.home);
@@ -64,25 +68,25 @@ const bars = Array.from({ length: 41 }, (_, i) => {
   <article class="pass" :class="{ done }">
     <div class="pass-main">
       <div class="pass-row">
-        <span class="eyebrow">Boarding pass</span>
+        <span class="eyebrow">{{ t('bp.title') }}</span>
         <span class="code">{{ reunion.passCode }}</span>
       </div>
 
       <div class="fields">
         <div class="field">
-          <span class="k">Passenger</span>
+          <span class="k">{{ t('bp.passenger') }}</span>
           <span class="v">{{ people.traveler }}</span>
         </div>
         <div class="field ar">
-          <span class="k">Flying to</span>
+          <span class="k">{{ t('bp.flyingTo') }}</span>
           <span class="v">{{ flyingTo }} <span v-if="branding.heart" class="heart">♥</span></span>
         </div>
         <div class="field">
-          <span class="k">Right now</span>
+          <span class="k">{{ t('bp.rightNow') }}</span>
           <span class="v">{{ fromLabel }} <span class="fe">{{ fromEmoji }}</span></span>
         </div>
         <div class="field ar">
-          <span class="k">Gate</span>
+          <span class="k">{{ t('bp.gate') }}</span>
           <span class="v">{{ reunion.gate }}</span>
         </div>
       </div>
@@ -95,28 +99,28 @@ const bars = Array.from({ length: 41 }, (_, i) => {
 
     <div class="pass-stub">
       <template v-if="!done">
-        <span class="eyebrow">Home in</span>
+        <span class="eyebrow">{{ t('bp.homeIn') }}</span>
         <div class="counter">
           <span v-if="!introDone" class="num">{{ shownDays }}</span>
           <Transition v-else name="tick" mode="out-in">
             <span :key="shownDays" class="num">{{ shownDays }}</span>
           </Transition>
-          <span class="unit">{{ shownDays === 1 ? "day" : "days" }}</span>
+          <span class="unit">{{ t('bp.days', shownDays) }}</span>
         </div>
         <div class="fine">
           <span class="clock">{{ clock }}</span>
           <span class="dot">•</span>
-          <span>arrivals, {{ reunion.dateLabel }}</span>
+          <span>{{ t('bp.arrivals', reunion.dateLabel) }}</span>
         </div>
       </template>
 
       <template v-else>
-        <span class="eyebrow">Status</span>
+        <span class="eyebrow">{{ t('bp.status') }}</span>
         <div class="counter">
-          <span class="num home">home</span>
+          <span class="num home">{{ t('bp.home') }}</span>
         </div>
         <div class="fine">
-          <span>the trip was pointed here the whole time</span>
+          <span>{{ t('bp.pointedHere') }}</span>
         </div>
         <div class="confetti" aria-hidden="true">
           <i v-for="n in 24" :key="n" :style="{ '--i': n }" />

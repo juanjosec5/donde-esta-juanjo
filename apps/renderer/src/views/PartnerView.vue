@@ -1,8 +1,10 @@
 <script setup>
-import { PageHost } from "@trip/shared";
+import { PageHost, useLocale } from "@trip/shared";
 import partner from "../configs/partner.js";
+
+const { locale } = useLocale();
 </script>
 
 <template>
-  <PageHost :config="partner" />
+  <PageHost :key="locale" :config="partner" />
 </template>

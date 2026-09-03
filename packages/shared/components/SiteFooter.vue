@@ -2,20 +2,19 @@
 import { inject } from "vue";
 import { PAGE } from "../lib/keys.js";
 import { useCountdown } from "../composables/useCountdown";
+import { useLocale } from "../composables/useLocale";
 
 const page = inject(PAGE);
 const reunion = page.reunion;
 const branding = page.branding;
 const { parts, done } = useCountdown(reunion.iso);
+const { t } = useLocale();
 </script>
 
 <template>
   <footer class="foot">
-    <p v-if="!done">
-      {{ parts.days }} days, {{ parts.hours }} hours to
-      {{ reunion.label }}.
-    </p>
-    <p v-else>Together in {{ reunion.city }}. That's the whole story.</p>
+    <p v-if="!done">{{ t('footer.countdown', parts.days, parts.hours, reunion.label) }}</p>
+    <p v-else>{{ t('footer.together', reunion.city) }}</p>
     <p class="made">
       <template v-if="branding.credit">{{ branding.credit }} · </template>{{ reunion.dateLabel }}
     </p>

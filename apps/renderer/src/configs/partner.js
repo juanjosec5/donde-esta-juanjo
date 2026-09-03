@@ -11,7 +11,7 @@ import { legs } from "./itinerary.js";
 export default {
   meta: {
     slug: "juanjo",
-    locale: "en",
+    locale: "es",
     occasion: "romantic",
     status: "published",
     plan: "paid",
@@ -30,23 +30,32 @@ export default {
     relationship: "partner",
   },
   hero: {
-    title: "Dónde está\nJuanjo",
-    subtitle:
-      "Where he is right now, and exactly how long until he walks through the arrivals gate in Guayaquil.",
+    title: {
+      en: "The long way\nback to Nicolle",
+      es: "Dónde está\nJuanjo",
+    },
+    subtitle: {
+      en: "Where he is right now, and exactly how long until he walks through the arrivals gate in Guayaquil.",
+      es: "Dónde está ahora mismo, y exactamente cuánto falta para que cruce la puerta de llegadas en Guayaquil.",
+    },
   },
   target: {
     at: "2026-10-31T20:00:00-05:00",
     tz: "America/Guayaquil",
     placeName: "Guayaquil",
-    label: "the arrivals gate in Guayaquil",
-    dateLabel: "31 October 2026",
+    label: {
+      en: "the arrivals gate in Guayaquil",
+      es: "la puerta de llegadas en Guayaquil",
+    },
     gate: "GYE",
     passCode: "JJ · 10—31",
     countFrom: "2026-10-03",
     coords: [-2.19, -79.89],
     onZero: {
-      title: "home",
-      body: "the trip was pointed here the whole time",
+      body: {
+        en: "the trip was pointed here the whole time",
+        es: "el viaje apuntaba aquí desde el principio",
+      },
       confetti: true,
     },
   },
@@ -60,13 +69,18 @@ export default {
       icon: "💛",
       kind: "reunion",
       coords: [-2.19, -79.89],
-      body: "Nicolle, at the gate. The whole trip was pointed here.",
+      body: {
+        en: "Nicolle, at the gate. The whole trip was pointed here.",
+        es: "Nicolle, en la puerta. Todo el viaje apuntaba aquí.",
+      },
     },
   ],
   note: {
-    body: "Ya alistándome para Halloween en Guayaquil 💛",
-    label: "a note for Nicolle",
-    openLabel: "close the note",
+    body: {
+      en: "Getting ready for Halloween in Guayaquil 💛",
+      es: "Ya alistándome para Halloween en Guayaquil 💛",
+    },
+    label: { en: "a note for Nicolle", es: "una nota para Nicolle" },
     hearts: true,
   },
   stats: {
@@ -76,6 +90,9 @@ export default {
   branding: {
     showFooter: true,
     heart: true,
-    credit: "made with a lot of missing Nicolle",
+    credit: {
+      en: "made with a lot of missing Nicolle",
+      es: "hecho extrañando mucho a Nicolle",
+    },
   },
 };

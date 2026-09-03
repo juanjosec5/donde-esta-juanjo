@@ -1,5 +1,8 @@
 <script setup>
 import { ref } from "vue";
+import { LangToggle, useLocale } from "@trip/shared";
+
+const { t } = useLocale();
 
 // Pointer parallax for the colour blooms. -1..1 per axis, pushed onto CSS vars
 // the halves read via `translate` on a single lightweight gradient layer.
@@ -27,18 +30,18 @@ function onMove(e) {
     <RouterLink to="/partner" class="half partner">
       <span class="content">
         <span class="glyph" aria-hidden="true">♡</span>
-        <span class="kicker">for</span>
-        <span class="title">Partner</span>
-        <span class="go">enter <span aria-hidden="true">→</span></span>
+        <span class="kicker">{{ t('landing.for') }}</span>
+        <span class="title">{{ t('landing.partner') }}</span>
+        <span class="go">{{ t('landing.enter') }} <span aria-hidden="true">→</span></span>
       </span>
     </RouterLink>
 
     <RouterLink to="/friends-family" class="half ff">
       <span class="content">
         <span class="glyph" aria-hidden="true">✈</span>
-        <span class="kicker">for</span>
-        <span class="title">Friends &amp; family</span>
-        <span class="go">enter <span aria-hidden="true">→</span></span>
+        <span class="kicker">{{ t('landing.for') }}</span>
+        <span class="title">{{ t('landing.ff') }}</span>
+        <span class="go">{{ t('landing.enter') }} <span aria-hidden="true">→</span></span>
       </span>
     </RouterLink>
 
@@ -46,7 +49,11 @@ function onMove(e) {
 
     <div class="masthead">
       <span class="eyebrow">dónde está juanjo</span>
-      <p class="tag">The long way back home</p>
+      <p class="tag">{{ t('landing.tag') }}</p>
+    </div>
+
+    <div class="landing-controls">
+      <LangToggle />
     </div>
 
     <span class="grain" aria-hidden="true" />
@@ -93,14 +100,36 @@ function onMove(e) {
     radial-gradient(45% 45% at 95% 35%, #ffcba4, transparent 70%),
     linear-gradient(155deg, #ff9e9e, #b58ee0);
 }
+/* friends & family mirrors its page: warm paper + a sparing primary trio */
 .half.ff {
   margin-right: -12vw;
   animation-delay: 0.16s;
+  color: #262320;
   background:
-    radial-gradient(65% 55% at 78% 12%, #9fd0ec, transparent 70%),
-    radial-gradient(60% 60% at 18% 88%, #7fd8b4, transparent 72%),
-    radial-gradient(45% 45% at 5% 38%, #c9a7f0, transparent 70%),
-    linear-gradient(205deg, #86bcda, #74c9a6);
+    radial-gradient(58% 52% at 80% 12%, rgba(47, 107, 224, 0.5), transparent 70%),
+    radial-gradient(56% 54% at 15% 84%, rgba(225, 75, 71, 0.42), transparent 72%),
+    radial-gradient(46% 44% at 4% 30%, rgba(244, 200, 75, 0.6), transparent 70%),
+    linear-gradient(205deg, #fbf6ea, #f0e6d0);
+}
+.ff::before {
+  opacity: 0.32;
+}
+.ff .kicker {
+  color: rgba(38, 35, 32, 0.6);
+}
+.ff .title {
+  text-shadow: 0 4px 18px rgba(38, 35, 32, 0.16);
+}
+.ff .glyph {
+  filter: drop-shadow(0 6px 16px rgba(38, 35, 32, 0.25));
+}
+.ff .go {
+  background: rgba(38, 35, 32, 0.08);
+  border-color: rgba(38, 35, 32, 0.26);
+  color: #262320;
+}
+.ff:hover .go {
+  background: rgba(38, 35, 32, 0.16);
 }
 
 /* one drifting, non-blurred gradient layer per half (cheap: transform only) */
@@ -260,6 +289,13 @@ function onMove(e) {
     opacity: 1;
     transform: translate(-50%, 0);
   }
+}
+
+.landing-controls {
+  position: fixed;
+  top: calc(0.9rem + env(safe-area-inset-top, 0px));
+  right: calc(0.9rem + env(safe-area-inset-right, 0px));
+  z-index: 30;
 }
 
 .grain {

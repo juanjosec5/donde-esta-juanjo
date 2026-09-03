@@ -1,7 +1,12 @@
 /**
+ * Prose fields below (hero.*, note.*, target.label/dateLabel/onZero.*, entry
+ * title/subtitle/body, branding.credit, stats.distanceLabel, people names) may
+ * be a plain string or `{ en: string, es: string }` — resolved per locale in
+ * toRenderModel (`meta.locale` is the fallback).
+ *
  * @typedef {Object} PageConfig  the stored / builder-facing shape (v1)
  * @property {{slug:string, locale:"es"|"en", occasion:"romantic"|"family"|"friends"|"homecoming", status:"draft"|"published"|"expired", plan:"free"|"paid"}} meta
- * @property {{preset:string, accent:string, fontPair:string, heroStyle:string, motion:boolean}} theme
+ * @property {{preset:"sunset"|"paper"|"mono", accent:string, fontPair:string, heroStyle:string, motion:boolean}} theme  preset picks a color palette (see lib/palettes.js); "sunset" keeps base.css + dark mode
  * @property {{away:{name:string,emoji?:string}[], home:{name:string,emoji?:string}[], whoIsAway:"away"|"home", relationship?:string}} people
  * @property {{title:string, subtitle:string, photo?:string}} hero
  * @property {{at:string, tz:string, placeName:string, label:string, dateLabel:string, gate:string, passCode:string, countFrom:string, coords?:[number,number], onZero:{title:string,body:string,confetti:boolean}}} target
@@ -64,7 +69,7 @@ export function normalizeConfig(input = {}) {
     coords: undefined,
     ...input.target,
     onZero: {
-      title: "home",
+      title: { en: "home", es: "en casa" },
       body: "",
       confetti: true,
       ...(input.target?.onZero ?? {}),
@@ -88,15 +93,15 @@ export function normalizeConfig(input = {}) {
     entries,
     note: {
       body: "",
-      label: "a note",
-      openLabel: "close the note",
-      hint: "tap to open",
+      label: { en: "a note", es: "una nota" },
+      openLabel: { en: "close the note", es: "cerrar la nota" },
+      hint: { en: "tap to open", es: "toca para abrir" },
       hearts: false,
       ...input.note,
     },
     stats: {
       show: ["distance", "stopsLeft", "percent"],
-      distanceLabel: "km apart today",
+      distanceLabel: { en: "km apart today", es: "km de distancia hoy" },
       ...input.stats,
     },
     share: { ogAuto: true, ...input.share },

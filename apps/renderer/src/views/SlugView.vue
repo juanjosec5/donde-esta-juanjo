@@ -1,9 +1,10 @@
 <script setup>
 import { ref, watchEffect } from "vue";
-import { PageHost } from "@trip/shared";
+import { PageHost, useLocale } from "@trip/shared";
 import { fetchPageConfig } from "../supabase.js";
 
 const props = defineProps({ slug: { type: String, required: true } });
+const { locale, t } = useLocale();
 
 const state = ref({ status: "loading", config: null });
 
@@ -22,19 +23,23 @@ watchEffect(async () => {
 </script>
 
 <template>
-  <PageHost v-if="state.status === 'ready'" :key="slug" :config="state.config" />
+  <PageHost
+    v-if="state.status === 'ready'"
+    :key="slug + ':' + locale"
+    :config="state.config"
+  />
 
   <div v-else class="msg">
     <template v-if="state.status === 'loading'">
-      <p>Loading…</p>
+      <p>{{ t('slug.loading') }}</p>
     </template>
     <template v-else-if="state.status === 'notfound'">
-      <h1>Nothing here yet</h1>
-      <p>This page isn't published, or the link is wrong.</p>
+      <h1>{{ t('slug.notFoundTitle') }}</h1>
+      <p>{{ t('slug.notFoundBody') }}</p>
     </template>
     <template v-else>
-      <h1>Something went wrong</h1>
-      <p>Try again in a moment.</p>
+      <h1>{{ t('slug.errorTitle') }}</h1>
+      <p>{{ t('slug.errorBody') }}</p>
     </template>
   </div>
 </template>

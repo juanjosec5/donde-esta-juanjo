@@ -1,7 +1,12 @@
+<script setup>
+import { useLocale } from "@trip/shared";
+const { t } = useLocale();
+</script>
+
 <template>
   <div class="msg">
-    <h1>Nothing here</h1>
-    <p>Check the link, or head to the front page.</p>
+    <h1>{{ t('notfound.title') }}</h1>
+    <p>{{ t('notfound.body') }}</p>
   </div>
 </template>
 

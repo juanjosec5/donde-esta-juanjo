@@ -2,10 +2,12 @@
 import { ref, inject, onMounted, onUnmounted } from "vue";
 import { scrollToToday } from "../lib/scrollToToday";
 import { useToTodayDirection } from "../composables/useToTodayDirection";
+import { useLocale } from "../composables/useLocale";
 import { EMBEDDED } from "../lib/keys.js";
 
 const embedded = inject(EMBEDDED, false);
 const { up } = useToTodayDirection();
+const { t } = useLocale();
 
 // Show the pill only when the current-day card is off-screen.
 const shown = ref(false);
@@ -35,7 +37,7 @@ onUnmounted(() => io?.disconnect());
     @click="scrollToToday"
   >
     <span class="arrow" aria-hidden="true">{{ up ? "↑" : "↓" }}</span>
-    where he is now
+    {{ t('jump.pill') }}
   </button>
 </template>
 

@@ -10,11 +10,14 @@ import {
 } from "vue";
 import { PAGE, NOW } from "../lib/keys.js";
 import { useTripState } from "../composables/useTripState";
+import { useLocale } from "../composables/useLocale";
 import { dateRange, nightCount, parseDay } from "../lib/format";
 
 const page = inject(PAGE);
 const now = inject(NOW);
 const segments = page.segments;
+
+const { t, locale } = useLocale();
 
 const { currentIndex, started } = useTripState(segments, page.reunion.iso);
 
@@ -70,7 +73,7 @@ const showRuler = rulerEnd > tripStart;
 const rulerDays = Math.max(Math.round((rulerEnd - tripStart) / 86400000), 1);
 
 const span = rulerEnd - tripStart;
-const frac = (t) => Math.min(Math.max((t - tripStart.getTime()) / span, 0), 1);
+const frac = (ts) => Math.min(Math.max((ts - tripStart.getTime()) / span, 0), 1);
 
 // Coral band: countFrom → now (0 before the homeward stretch begins).
 const litFrom = `${(frac((countFrom ?? rulerEnd).getTime()) * 100).toFixed(2)}%`;
@@ -88,9 +91,9 @@ function state(i) {
 
 function nightsText(s) {
   const n = nightCount(s.start, s.end);
-  if (n === 0) return "day trip";
-  return `${n} ${n === 1 ? "night" : "nights"}`;
+  return n === 0 ? t("timeline.dayTrip") : t("timeline.nights", n);
 }
+const range = (s) => dateRange(s.start, s.end, locale.value);
 </script>
 
 <template>
@@ -146,9 +149,9 @@ function nightsText(s) {
           <template v-else>
             <span class="eyebrow">{{ s.country }}</span>
             <h3>{{ s.city }} <span class="emoji">{{ s.emoji }}</span></h3>
-            <p class="when">{{ dateRange(s.start, s.end) }} · {{ nightsText(s) }}</p>
-            <span v-if="state(i) === 'current'" class="badge">where he is right now</span>
-            <span v-else-if="s.type === 'reunion'" class="badge gold">the finish line</span>
+            <p class="when">{{ range(s) }} · {{ nightsText(s) }}</p>
+            <span v-if="state(i) === 'current'" class="badge">{{ t('timeline.current') }}</span>
+            <span v-else-if="s.type === 'reunion'" class="badge gold">{{ t('timeline.finish') }}</span>
           </template>
         </div>
       </li>
@@ -251,13 +254,13 @@ ol {
   border-radius: 50%;
   background: var(--mint);
   border: 3px solid var(--mint);
-  box-shadow: 0 0 0 6px rgba(127, 216, 180, 0.28);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--mint) 28%, transparent);
   animation: throb 2.2s ease-in-out infinite;
   transition: top 1.2s cubic-bezier(0.22, 1, 0.36, 1);
   z-index: 1;
 }
 @keyframes throb {
-  50% { box-shadow: 0 0 0 12px rgba(127, 216, 180, 0); }
+  50% { box-shadow: 0 0 0 12px color-mix(in srgb, var(--mint) 0%, transparent); }
 }
 
 /* card ------------------------------------------------------------- */
@@ -266,7 +269,7 @@ ol {
   border: 1px solid var(--edge);
   border-radius: var(--radius);
   padding: 1.15rem 1.3rem;
-  box-shadow: 0 14px 34px -26px rgba(94, 67, 75, 0.5);
+  box-shadow: 0 14px 34px -26px color-mix(in srgb, var(--ink) 50%, transparent);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 .card:hover {
@@ -277,11 +280,15 @@ ol {
 }
 .entry.current .card {
   border-color: var(--mint);
-  box-shadow: 0 18px 40px -22px rgba(127, 216, 180, 0.7);
+  box-shadow: 0 18px 40px -22px color-mix(in srgb, var(--mint) 70%, transparent);
 }
 .entry.reunion .card {
   border-color: var(--gold);
-  background: linear-gradient(160deg, var(--shell), rgba(244, 183, 64, 0.14));
+  background: linear-gradient(
+    160deg,
+    var(--shell),
+    color-mix(in srgb, var(--gold) 14%, transparent)
+  );
 }
 
 h3 {
@@ -307,11 +314,11 @@ h3 {
   padding: 0.32rem 0.7rem;
   border-radius: 999px;
   background: var(--mint);
-  color: #204a3a;
+  color: color-mix(in srgb, var(--mint) 35%, #000);
 }
 .badge.gold {
   background: var(--gold);
-  color: #5c4300;
+  color: color-mix(in srgb, var(--gold) 32%, #000);
 }
 
 /* hop ------------------------------------------------------------- */

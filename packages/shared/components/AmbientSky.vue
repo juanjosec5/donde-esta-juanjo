@@ -39,7 +39,11 @@ const blobs = [
   z-index: -1;
   overflow: hidden;
   background:
-    radial-gradient(120% 80% at 50% -10%, rgba(255, 203, 164, 0.5), transparent 60%),
+    radial-gradient(
+      120% 80% at 50% -10%,
+      color-mix(in srgb, var(--peach) 50%, transparent),
+      transparent 60%
+    ),
     linear-gradient(180deg, var(--cream), var(--shell) 55%, var(--cream));
 }
 .sky.embedded {
