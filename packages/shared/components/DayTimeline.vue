@@ -137,14 +137,12 @@ function nightsText(s) {
               {{ s.city }}
               <span class="hop-code">{{ s.country }}</span>
             </p>
-            <p class="blurb">{{ s.blurb }}</p>
           </template>
 
           <template v-else>
             <span class="eyebrow">{{ s.country }}</span>
             <h3>{{ s.city }} <span class="emoji">{{ s.emoji }}</span></h3>
             <p class="when">{{ dateRange(s.start, s.end) }} · {{ nightsText(s) }}</p>
-            <p class="blurb">{{ s.blurb }}</p>
             <span v-if="state(i) === 'current'" class="badge">where he is right now</span>
             <span v-else-if="s.type === 'reunion'" class="badge gold">the finish line</span>
           </template>
@@ -307,14 +305,6 @@ h3 {
   color: var(--ink-soft);
 }
 
-.blurb {
-  margin-top: 0.5rem;
-  color: var(--ink);
-}
-.entry.future .blurb {
-  color: var(--ink-soft);
-}
-
 .badge {
   display: inline-block;
   margin-top: 0.8rem;
@@ -347,12 +337,6 @@ h3 {
 .hop-code {
   opacity: 0.7;
   margin-left: 0.4rem;
-}
-.entry.hop .blurb {
-  font-size: 0.85rem;
-  color: var(--ink-soft);
-  font-style: italic;
-  margin-top: 0.2rem;
 }
 .entry.hop .marker {
   width: 11px;
