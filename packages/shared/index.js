@@ -12,6 +12,7 @@ export { default as SiteFooter } from "./components/SiteFooter.vue";
 export { useNow } from "./composables/useNow.js";
 export { useCountdown } from "./composables/useCountdown.js";
 export { useTripState } from "./composables/useTripState.js";
+export { useToTodayDirection } from "./composables/useToTodayDirection.js";
 
 // Lib
 export { PAGE, NOW } from "./lib/keys.js";

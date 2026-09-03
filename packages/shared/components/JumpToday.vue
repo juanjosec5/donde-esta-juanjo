@@ -1,9 +1,11 @@
 <script setup>
 import { ref, inject, onMounted, onUnmounted } from "vue";
 import { scrollToToday } from "../lib/scrollToToday";
+import { useToTodayDirection } from "../composables/useToTodayDirection";
 import { EMBEDDED } from "../lib/keys.js";
 
 const embedded = inject(EMBEDDED, false);
+const { up } = useToTodayDirection();
 
 // Show the pill only when the current-day card is off-screen.
 const shown = ref(false);
@@ -32,7 +34,7 @@ onUnmounted(() => io?.disconnect());
     :aria-hidden="!shown"
     @click="scrollToToday"
   >
-    <span class="arrow" aria-hidden="true">↓</span>
+    <span class="arrow" aria-hidden="true">{{ up ? "↑" : "↓" }}</span>
     where he is now
   </button>
 </template>

@@ -35,11 +35,22 @@ export function toRenderModel(input) {
       coords: c.target.coords,
       label: c.target.label,
       dateLabel: c.target.dateLabel,
+      gate: c.target.gate,
+      passCode: c.target.passCode,
+      countFrom: c.target.countFrom,
     },
 
     hero: {
       title: c.hero.title,
       subtitle: c.hero.subtitle,
+    },
+
+    note: {
+      body: c.note.body,
+      label: c.note.label,
+      openLabel: c.note.openLabel,
+      hint: c.note.hint,
+      hearts: c.note.hearts,
     },
 
     segments: c.entries.map((e) => ({
@@ -52,7 +63,5 @@ export function toRenderModel(input) {
       coords: e.coords,
       type: KIND_TO_TYPE[e.kind],
     })),
-
-    note: c.note.body,
   };
 }

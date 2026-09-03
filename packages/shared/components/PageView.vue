@@ -2,6 +2,7 @@
 import { computed, inject } from "vue";
 import { PAGE } from "../lib/keys.js";
 import { useTripState } from "../composables/useTripState";
+import { useToTodayDirection } from "../composables/useToTodayDirection";
 import { haversineKm, groupThousands } from "../lib/geo.js";
 import { scrollToToday } from "../lib/scrollToToday.js";
 
@@ -21,6 +22,7 @@ const { currentSegment, currentIndex, progress } = useTripState(
   page.segments,
   reunion.iso,
 );
+const { up: toTodayUp } = useToTodayDirection();
 
 const show = (key) => page.stats?.show?.includes(key) ?? false;
 
@@ -55,13 +57,14 @@ const pct = computed(() =>
       </div>
 
       <ul class="stats" v-reveal>
-        <li v-if="show('distance')"><b>{{ kmApart }}</b><span>km apart today</span></li>
+        <li v-if="show('distance')"><b>{{ kmApart }}</b><span>{{ page.stats.distanceLabel }}</span></li>
         <li v-if="show('stopsLeft')"><b>{{ stopsLeft }}</b><span>stops to go</span></li>
         <li v-if="show('percent')"><b>{{ pct }}%</b><span>of the way there</span></li>
       </ul>
 
       <button class="jump-hero" v-reveal @click="scrollToToday">
-        See where he is right now ↓
+        See where he is right now
+        <span aria-hidden="true">{{ toTodayUp ? "↑" : "↓" }}</span>
       </button>
     </header>
 
@@ -77,7 +80,7 @@ const pct = computed(() =>
       <DayTimeline />
     </section>
 
-    <section class="block tight">
+    <section v-if="page.note.body" class="block tight">
       <LoveNote />
     </section>
 

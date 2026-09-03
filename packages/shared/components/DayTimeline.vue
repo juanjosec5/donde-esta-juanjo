@@ -1,16 +1,83 @@
 <script setup>
-import { computed, inject } from "vue";
-import { PAGE } from "../lib/keys.js";
+import {
+  computed,
+  inject,
+  ref,
+  watch,
+  onMounted,
+  onUnmounted,
+  nextTick,
+} from "vue";
+import { PAGE, NOW } from "../lib/keys.js";
 import { useTripState } from "../composables/useTripState";
-import { dateRange, nightCount } from "../lib/format";
+import { dateRange, nightCount, parseDay } from "../lib/format";
 
 const page = inject(PAGE);
+const now = inject(NOW);
 const segments = page.segments;
 
-const { currentIndex, progress, started } = useTripState(segments, page.reunion.iso);
+const { currentIndex, started } = useTripState(segments, page.reunion.iso);
 
 // The card the "jump to today" controls scroll to (first stop before the trip starts).
 const anchorIndex = computed(() => Math.max(currentIndex.value, 0));
+
+/* --- "today" dot + rail fill ---------------------------------------
+ * The glowing marker rides down the current stop's card as its days pass,
+ * and the coral rail fill tracks it. `--day-through` (0→1) drives both via
+ * CSS calc; the card's measured box is only re-read on layout changes. */
+const rootEl = ref(null);
+const curTop = ref(0);
+const curHeight = ref(0);
+
+const dayThrough = computed(() => {
+  const i = currentIndex.value;
+  if (i < 0) return 0;
+  const s = segments[i];
+  const a = parseDay(s.start).getTime();
+  const e = parseDay(s.end).getTime() + 86400000; // end day inclusive
+  if (e <= a) return 1;
+  return Math.min(Math.max((now.value - a) / (e - a), 0), 1);
+});
+
+function measureCurrent() {
+  const root = rootEl.value;
+  if (!root) return;
+  const li = root.querySelectorAll(".entry")[Math.max(currentIndex.value, 0)];
+  if (!li) return;
+  curTop.value = li.offsetTop;
+  curHeight.value = li.offsetHeight;
+}
+
+onMounted(async () => {
+  await nextTick();
+  measureCurrent();
+  document.fonts?.ready.then(measureCurrent);
+  window.addEventListener("resize", measureCurrent, { passive: true });
+});
+onUnmounted(() => window.removeEventListener("resize", measureCurrent));
+watch(currentIndex, () => nextTick(measureCurrent));
+
+/* --- day-ruler -------------------------------------------------------
+ * The whole rail gets one notch a day. The coral band runs from
+ * `target.countFrom` (the homeward stretch) to today — earlier days sit
+ * on the ruler but aren't counted. A gauge, not aligned to the cards. */
+const lastSeg = segments[segments.length - 1];
+const tripStart = parseDay(segments[0].start);
+const rulerEnd = parseDay(lastSeg.end || lastSeg.start);
+const countFrom = page.reunion.countFrom ? parseDay(page.reunion.countFrom) : null;
+
+const showRuler = rulerEnd > tripStart;
+const rulerDays = Math.max(Math.round((rulerEnd - tripStart) / 86400000), 1);
+
+const span = rulerEnd - tripStart;
+const frac = (t) => Math.min(Math.max((t - tripStart.getTime()) / span, 0), 1);
+
+// Coral band: countFrom → now (0 before the homeward stretch begins).
+const litFrom = `${(frac((countFrom ?? rulerEnd).getTime()) * 100).toFixed(2)}%`;
+const litTo = computed(() => {
+  const from = frac((countFrom ?? rulerEnd).getTime());
+  return `${(Math.max(frac(now.value), from) * 100).toFixed(2)}%`;
+});
 
 function state(i) {
   if (!started.value) return "future";
@@ -27,8 +94,30 @@ function nightsText(s) {
 </script>
 
 <template>
-  <section class="timeline" :style="{ '--progress': progress }">
+  <section
+    ref="rootEl"
+    class="timeline"
+    :style="{
+      '--cur-top': curTop + 'px',
+      '--cur-height': curHeight + 'px',
+      '--day-through': dayThrough,
+    }"
+  >
     <div class="rail" aria-hidden="true"><span class="rail-fill" /></div>
+
+    <div
+      v-if="showRuler"
+      class="ruler"
+      aria-hidden="true"
+      :style="{
+        '--ruler-days': rulerDays,
+        '--lit-from': litFrom,
+        '--lit-to': litTo,
+      }"
+    >
+      <span class="tickset faint" />
+      <span class="tickset lit" />
+    </div>
 
     <ol>
       <li
@@ -86,10 +175,54 @@ function nightsText(s) {
 .rail-fill {
   position: absolute;
   inset: 0 0 auto 0;
-  height: calc(var(--progress, 0) * 100%);
+  /* reach the centre of the "today" marker: card top + marker offset,
+     plus how far the current day sits through the stop */
+  height: calc(
+    var(--cur-top, 0px) + 1.4rem + 8.5px +
+      var(--day-through, 0) * (var(--cur-height, 0px) - 2.8rem)
+  );
   background: linear-gradient(var(--coral), var(--orchid));
   border-radius: 3px;
   transition: height 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* day-ruler — one crossbar a day down the whole rail ----------------- */
+.ruler {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 23px; /* centre of the rail (left:22 + width:3 / 2) */
+  width: 15px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.tickset {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    currentColor 0 2px,
+    transparent 2px calc(100% / var(--ruler-days, 20))
+  );
+}
+.tickset.faint {
+  color: var(--ink-soft);
+  opacity: 0.4;
+}
+.tickset.lit {
+  color: var(--coral);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0 var(--lit-from, 0%),
+    #000 var(--lit-from, 0%) var(--lit-to, 0%),
+    transparent var(--lit-to, 0%)
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0 var(--lit-from, 0%),
+    #000 var(--lit-from, 0%) var(--lit-to, 0%),
+    transparent var(--lit-to, 0%)
+  );
 }
 
 ol {
@@ -122,10 +255,12 @@ ol {
   border-color: var(--coral);
 }
 .entry.current .marker {
+  top: calc(1.4rem + var(--day-through, 0) * (100% - 2.8rem));
   background: var(--mint);
   border-color: var(--mint);
   box-shadow: 0 0 0 6px rgba(127, 216, 180, 0.28);
   animation: throb 2.2s ease-in-out infinite;
+  transition: top 1.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .entry.reunion .marker {
   background: var(--gold);
@@ -171,6 +306,7 @@ h3 {
   font-size: 0.78rem;
   color: var(--ink-soft);
 }
+
 .blurb {
   margin-top: 0.5rem;
   color: var(--ink);
@@ -231,6 +367,9 @@ h3 {
     left: 50%;
     transform: translateX(-50%);
   }
+  .ruler {
+    left: 50%;
+  }
   .entry {
     width: 50%;
     padding-left: 0;
@@ -272,6 +411,7 @@ h3 {
   }
   .entry.current .marker {
     animation: none;
+    transition: none;
   }
 }
 </style>

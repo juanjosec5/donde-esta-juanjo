@@ -15,15 +15,15 @@ const open = ref(false);
     >
       <span class="stamp" aria-hidden="true">✈︎</span>
       <span class="flap-text">
-        {{ open ? "close the note" : "a note for Nicolle" }}
+        {{ open ? note.openLabel : note.label }}
       </span>
-      <span class="hint">{{ open ? "" : "tap to open" }}</span>
+      <span class="hint">{{ open ? "" : note.hint }}</span>
     </button>
 
     <Transition name="unfold">
       <div v-if="open" class="paper">
-        <p>{{ note }}</p>
-        <div class="hearts" aria-hidden="true">
+        <p>{{ note.body }}</p>
+        <div v-if="note.hearts" class="hearts" aria-hidden="true">
           <i v-for="n in 9" :key="n" :style="{ '--i': n }">♥</i>
         </div>
       </div>

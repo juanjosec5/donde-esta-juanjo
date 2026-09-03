@@ -1,8 +1,8 @@
 <script setup>
 import { PageHost } from "@trip/shared";
-import juanjo from "../configs/juanjo.js";
+import partner from "../configs/partner.js";
 </script>
 
 <template>
-  <PageHost :config="juanjo" />
+  <PageHost :config="partner" />
 </template>

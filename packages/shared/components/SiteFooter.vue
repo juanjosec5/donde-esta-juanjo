@@ -3,7 +3,9 @@ import { inject } from "vue";
 import { PAGE } from "../lib/keys.js";
 import { useCountdown } from "../composables/useCountdown";
 
-const reunion = inject(PAGE).reunion;
+const page = inject(PAGE);
+const reunion = page.reunion;
+const branding = page.branding;
 const { parts, done } = useCountdown(reunion.iso);
 </script>
 
@@ -14,7 +16,9 @@ const { parts, done } = useCountdown(reunion.iso);
       {{ reunion.label }}.
     </p>
     <p v-else>Together in {{ reunion.city }}. That's the whole story.</p>
-    <p class="made">made with a lot of missing Nicolle · {{ reunion.dateLabel }}</p>
+    <p class="made">
+      <template v-if="branding.credit">{{ branding.credit }} · </template>{{ reunion.dateLabel }}
+    </p>
   </footer>
 </template>
 

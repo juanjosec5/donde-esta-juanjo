@@ -4,12 +4,12 @@
  * @property {{preset:string, accent:string, fontPair:string, heroStyle:string, motion:boolean}} theme
  * @property {{away:{name:string,emoji?:string}[], home:{name:string,emoji?:string}[], whoIsAway:"away"|"home", relationship?:string}} people
  * @property {{title:string, subtitle:string, photo?:string}} hero
- * @property {{at:string, tz:string, placeName:string, label:string, dateLabel:string, coords?:[number,number], onZero:{title:string,body:string,confetti:boolean}}} target
+ * @property {{at:string, tz:string, placeName:string, label:string, dateLabel:string, gate:string, passCode:string, countFrom:string, coords?:[number,number], onZero:{title:string,body:string,confetti:boolean}}} target
  * @property {Entry[]} entries
- * @property {{body:string, signature?:string, lockUntilZero?:boolean}} note
- * @property {{show:("distance"|"stopsLeft"|"percent")[]}} stats
+ * @property {{body:string, label:string, openLabel:string, hint:string, hearts:boolean, signature?:string, lockUntilZero?:boolean}} note
+ * @property {{show:("distance"|"stopsLeft"|"percent")[], distanceLabel:string}} stats
  * @property {{ogAuto:boolean, password?:string}} share
- * @property {{showFooter:boolean}} branding
+ * @property {{showFooter:boolean, heart:boolean, credit:string}} branding
  *
  * @typedef {Object} Entry
  * @property {string} id
@@ -58,6 +58,9 @@ export function normalizeConfig(input = {}) {
     placeName: "",
     label: "",
     dateLabel: "",
+    gate: "GYE",
+    passCode: "JJ · 10—31",
+    countFrom: "", // ISO date: the rail's day-by-day ruler starts here
     coords: undefined,
     ...input.target,
     onZero: {
@@ -83,11 +86,24 @@ export function normalizeConfig(input = {}) {
     hero: { title: "", subtitle: "", ...input.hero },
     target,
     entries,
-    note: { body: "", ...input.note },
-    stats: { show: ["distance", "stopsLeft", "percent"], ...input.stats },
+    note: {
+      body: "",
+      label: "a note",
+      openLabel: "close the note",
+      hint: "tap to open",
+      hearts: false,
+      ...input.note,
+    },
+    stats: {
+      show: ["distance", "stopsLeft", "percent"],
+      distanceLabel: "km apart today",
+      ...input.stats,
+    },
     share: { ogAuto: true, ...input.share },
     branding: {
       showFooter: meta.plan !== "paid",
+      heart: false,
+      credit: "",
       ...input.branding,
     },
   };

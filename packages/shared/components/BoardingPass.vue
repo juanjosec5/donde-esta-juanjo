@@ -8,6 +8,7 @@ import { pad2 } from "../lib/format";
 const page = inject(PAGE);
 const people = page.people;
 const reunion = page.reunion;
+const branding = page.branding;
 
 const { parts, done } = useCountdown(reunion.iso);
 const { currentSegment, started } = useTripState(page.segments, reunion.iso);
@@ -64,7 +65,7 @@ const bars = Array.from({ length: 41 }, (_, i) => {
     <div class="pass-main">
       <div class="pass-row">
         <span class="eyebrow">Boarding pass</span>
-        <span class="code">JJ&nbsp;·&nbsp;10—31</span>
+        <span class="code">{{ reunion.passCode }}</span>
       </div>
 
       <div class="fields">
@@ -74,7 +75,7 @@ const bars = Array.from({ length: 41 }, (_, i) => {
         </div>
         <div class="field ar">
           <span class="k">Flying to</span>
-          <span class="v">{{ flyingTo }} <span class="heart">♥</span></span>
+          <span class="v">{{ flyingTo }} <span v-if="branding.heart" class="heart">♥</span></span>
         </div>
         <div class="field">
           <span class="k">Right now</span>
@@ -82,7 +83,7 @@ const bars = Array.from({ length: 41 }, (_, i) => {
         </div>
         <div class="field ar">
           <span class="k">Gate</span>
-          <span class="v">GYE</span>
+          <span class="v">{{ reunion.gate }}</span>
         </div>
       </div>
     </div>
