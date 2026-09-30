@@ -60,8 +60,8 @@ export default {
       ...rest,
       kind: "reunion",
       body: {
-        en: "Home ground, back for Halloween. The whole trip was pointed here.",
-        es: "Terreno conocido, de vuelta para Halloween. Todo el viaje apuntaba aquí.",
+        en: "Home ground, back at last. The whole trip was pointed here.",
+        es: "Terreno conocido, por fin de vuelta. Todo el viaje apuntaba aquí.",
       },
     };
   }),
