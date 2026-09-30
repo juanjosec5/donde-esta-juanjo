@@ -171,7 +171,7 @@ export const legs = [
   {
     id: "buga",
     dateStart: "2026-10-04",
-    dateEnd: "2026-10-31",
+    dateEnd: "2026-10-28",
     title: "Buga",
     subtitle: "Colombia",
     icon: "⛪",

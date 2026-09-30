@@ -40,7 +40,7 @@ export default {
     },
   },
   target: {
-    at: "2026-10-31T20:00:00-05:00",
+    at: "2026-10-28T20:00:00-05:00",
     tz: "America/Guayaquil",
     placeName: "Guayaquil",
     label: {
@@ -48,7 +48,7 @@ export default {
       es: "la puerta de llegadas en Guayaquil",
     },
     gate: "GYE",
-    passCode: "JJ · 10—31",
+    passCode: "JJ · 10—28",
     countFrom: "2026-10-03",
     coords: [-2.19, -79.89],
     onZero: {
@@ -63,7 +63,7 @@ export default {
     ...legs,
     {
       id: "guayaquil",
-      dateStart: "2026-10-31",
+      dateStart: "2026-10-28",
       title: "Guayaquil",
       subtitle: "Ecuador",
       icon: "💛",
